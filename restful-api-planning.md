@@ -92,4 +92,4 @@ JavaScript will send that JSON to the future Flask `/orders` endpoint using `Con
 
 ## Deployment Plan
 
-The first version will run locally because this assignment is about understanding the request flow. The browser page will act as the client, TheMealDB will provide the public food data, and Flask will be the local service that receives order JSON. In a larger app, those pieces could be hosted separately, but the student version keeps them small enough to test and explain clearly.
+The first version will run locally so the request flow is easy to test. The browser page will act as the client, TheMealDB will provide the public food data, and Flask will be the local service that receives order JSON. In a larger app, those pieces could be hosted separately, but keeping them local here makes the connections easier to see and explain.
