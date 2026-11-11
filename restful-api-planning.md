@@ -76,4 +76,3 @@ The POST will use `Content-Type: application/json` and `Accept: application/json
 ## Deployment Plan
 
 During development, the client will be served locally so Fetch behavior can be inspected in the browser network tools. After the Python endpoint is implemented and tested, the client files can be deployed as a static site while the Flask service is deployed separately with its base URL configured in the client. This keeps the client responsible for presentation and the Python service responsible for accepting and storing favorite meal plans.
-
