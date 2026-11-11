@@ -1,43 +1,42 @@
-# RESTful API Planning: Meal Finder and Favorite Planner
+# RESTful API Planning: DoorDash-Inspired Meal Browser
 
-The complete planning document is available in [restful-api-planning.md](restful-api-planning.md). This README also summarizes the required plan sections for quick review.
+This class plan imagines a small food-browsing and order-request page inspired by the familiar flow of a delivery app such as DoorDash. It does not claim to recreate DoorDash or describe its real internal systems. The full plan is in [restful-api-planning.md](restful-api-planning.md).
 
 ## API Selection
 
-The project will consume TheMealDB, a public recipe API from the Public APIs repository. Meals are resources identified by their meal IDs. Search and detail requests use GET, carry their own query value or ID, and do not depend on an earlier client session.
+The plan uses TheMealDB, a public recipe API from the Public APIs list. Meal IDs identify the data resources. GET requests search for or look up meals, and a future Flask POST endpoint will accept a simple order request. Each request includes the search value, ID, or JSON body it needs, which demonstrates stateless requests.
 
 ## Endpoint Mapping
 
-- `GET /api/json/v1/1/search.php?s={mealName}` searches meal resources by name.
-- `GET /api/json/v1/1/lookup.php?i={mealId}` retrieves one meal's details.
-- Planned `POST /api/favorites` sends a selected meal plan as JSON to a Flask backend and receives `201 Created` when saved.
+- `GET /api/json/v1/1/search.php?s={mealName}` finds matching meals.
+- `GET /api/json/v1/1/lookup.php?i={mealId}` finds one selected meal.
+- Planned `POST /orders` sends one order JSON object to Flask and expects `201 Created`.
 
 ## Data Flow Diagram
 
 ```text
-Search form → loading message → asynchronous Fetch GET → JSON response
-→ dynamic meal cards → vegetarian label styling
-→ clear no-result or error message when needed
+Search form → loading message → Fetch GET → JSON meals list
+→ dynamic meal cards → user selects one → order form JSON → POST /orders
 ```
 
-The client will send `Accept: application/json`, check `response.ok`, use a `catch` block for connection problems, and map the `meals` array into visible cards or rows.
+Fetch will use `Accept: application/json`, check `response.ok`, and show a loading, no-results, or error message as appropriate. Meal JSON becomes cards or rows. Vegetarian meals get a green category label while other meals keep the normal style.
 
 ## Form Handling
 
-The search field is required and must contain at least two characters. The favorite-plan form will require a selected meal ID, meal date, and valid email, while notes remain optional and limited to 250 characters. After local validation, JavaScript will convert the values into JSON and POST them to the future Flask endpoint with `Content-Type: application/json`.
+The search needs at least two characters. The order form collects a selected meal ID and name, customer name, quantity from 1 through 10, pickup or delivery selection, email, and optional notes limited to 250 characters. JavaScript validates the values locally, then sends a JSON request with `Content-Type: application/json` to the planned Flask endpoint.
 
 ## Technology Stack
 
-HTML, CSS, JavaScript, the Fetch API, TheMealDB, Flask, Python, browser developer tools, `curl`, and Flask tests or `pytest` will support the project.
+HTML, CSS, JavaScript, Fetch, TheMealDB, Flask, Python, browser developer tools, `curl`, Flask tests or `pytest`, Git, and GitHub will be used.
 
 ## Implementation Steps
 
-1. Create the client page and search form.
+1. Build a basic page and meal search form.
 2. Add Fetch GET with loading and error states.
-3. Render returned JSON dynamically and style vegetarian labels.
-4. Add the favorite-plan form, validation, and JSON POST contract.
-5. Build and test the Flask endpoint, then review and deploy the client.
+3. Render JSON meal cards and vegetarian styling.
+4. Add meal selection, order controls, validation, and JSON construction.
+5. Build and test the simple Flask POST endpoint, then run locally and review the documentation.
 
 ## Deployment Plan
 
-The client will first run locally for browser testing. After the Flask endpoint is available, the static client and Python service can be deployed separately, keeping presentation in the client and saved favorite plans in the backend.
+The student version will run locally so the request flow can be tested clearly. The browser page, public recipe API, and small Flask service are separate pieces, similar to the pieces a larger delivery app could connect, but at a scale appropriate for learning.
